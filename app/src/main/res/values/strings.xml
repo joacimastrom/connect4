@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ConnectFour</string>
+
+    <string name="game_name">Connect Four</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
