@@ -23,17 +23,14 @@ public class Audit extends Activity {
         setContentView(R.layout.auditlog);
         getActionBar().hide();
 
-
+        // Loads audit log
         audit = PreferenceManager.getDefaultSharedPreferences(this).getString("audit", "No Data");
-
         auditText = (TextView) findViewById(R.id.auditText);
         auditText.setText(audit);
         auditText.setMovementMethod(new ScrollingMovementMethod());
-
-
     }
 
-
+    // Clears the audit history
     public void clearAudit(View view) {
         audit = "";
         auditText.setText((audit));

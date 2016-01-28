@@ -22,13 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+// Custom adapter to populate listview
 public class HighScoreAdapter extends BaseAdapter{
 
     ArrayList<Player> players;
     Context context;
-
-
-
 
     public HighScoreAdapter(Context context, List<Player> players) {
         this.players = (ArrayList) players;
@@ -59,22 +58,11 @@ public class HighScoreAdapter extends BaseAdapter{
                     R.layout.myrow, null);
         }
 
-            TextView name = (TextView) convertView.findViewById(R.id.name);
-            TextView wins = (TextView) convertView.findViewById(R.id.wins);
-            if (position == 0) {
-                name.setText("#  Name");
-                name.setTypeface(null, Typeface.BOLD);
-                wins.setText("Wins");
-                wins.setTypeface(null, Typeface.BOLD);
-            } else {
-
-                name.setText((position) + ".  " + players.get(position-1).getName());
-                wins.setText("" + players.get(position-1).getWins());
-            }
-
-
+        // Sets and populates the textfields
+        TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView wins = (TextView) convertView.findViewById(R.id.wins);
+        name.setText((position+1) + ".  " + players.get(position).getName());
+        wins.setText("" + players.get(position).getWins());
         return convertView;
-
     }
-
 }

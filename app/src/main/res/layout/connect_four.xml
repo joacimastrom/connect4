@@ -47,6 +47,7 @@
         android:textSize="30sp"
         android:layout_gravity="center_horizontal"
         android:onClick="reset"
-        android:id="@+id/reset"/>
+        android:id="@+id/reset"
+        style="@style/btnStyle"/>
 
 </LinearLayout>

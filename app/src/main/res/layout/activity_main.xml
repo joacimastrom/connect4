@@ -25,7 +25,9 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:layout_marginTop="30dp"
-      android:text="One player"/>
+      android:text="One player"
+      style="@style/btnStyle"
+      />
 
   <Button
       android:id="@+id/multiPlay"
@@ -34,7 +36,8 @@
       android:layout_gravity="center"
       android:layout_marginTop="30dp"
       android:text="Two players"
-      android:onClick="play"/>
+      android:onClick="play"
+      style="@style/btnStyle"/>
 
     <Button
         android:id="@+id/highScore"
@@ -43,7 +46,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="High Score"
-        android:onClick="showHighscore"/>
+        android:onClick="showHighscore"
+        style="@style/btnStyle"/>
 
 
     <Button
@@ -52,7 +56,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="Audit"
-        android:onClick="showAudit"/>
+        android:onClick="showAudit"
+        style="@style/btnStyle"/>
 
 
 

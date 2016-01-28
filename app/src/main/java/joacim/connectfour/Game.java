@@ -48,40 +48,39 @@ public class Game extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().hide();
+        audit = PreferenceManager.getDefaultSharedPreferences(this).getString("audit", "");
+        setupPlayers();
+        setupBoard();
+    }
 
+    // Load player history
+    private void setupPlayers(){
         Intent newGame = getIntent();
         currPlayers = newGame.getStringArrayExtra("currPlayers");
         Gson gson = new Gson();
         String json = PreferenceManager.getDefaultSharedPreferences(this).getString("players", "defaultStringIfNothingFound");
-        audit = PreferenceManager.getDefaultSharedPreferences(this).getString("audit", "");
         players = gson.fromJson(json, new TypeToken<ArrayList<Player>>(){}.getType());
 
-        setupBoard();
-    }
-
-
-    private boolean checkFull() {
-        for (int i = 0; i<cols; i++){
-            if (nbrBoard[0][i] == EMPTY) {
-                return false;
+        for (int i = 1; i<=2; i++){
+            if (!checkPlayer(currPlayers[i])) {
+                players.add(new Player(currPlayers[i]));
+                savePlayers();
             }
         }
 
-        return true;
     }
 
-
-    private void saveAudit() {
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("audit", audit).commit();
-
+    // Check if players are already in database
+    private boolean checkPlayer(String name) {
+        for (Player p : players){
+            if (name.equals(p.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 
-    private void savePlayers(){
-        Gson gson = new Gson();
-        String json = gson.toJson(players);
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("players", json).commit();
-    }
-
+    // Setup logical and graphical board and
     public void setupBoard(){
         turnFlag = RED;
         winnerFound = false;
@@ -120,10 +119,43 @@ public class Game extends Activity{
             }
         });
 
-    audit = audit + "New game\n";
+        audit = audit + "New game\n\n";
 
     }
 
+    // Check if board is full
+    private boolean checkFull() {
+        for (int i = 0; i<cols; i++){
+            if (nbrBoard[0][i] == EMPTY) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Save audit log
+    private void saveAudit() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("audit", audit).commit();
+
+    }
+
+    // Audit if cancelled game
+    @Override
+    public void finish() {
+        audit = audit + "Game cancelled\n";
+        saveAudit();
+        super.finish();
+    }
+
+    // Save player state
+    private void savePlayers(){
+        Gson gson = new Gson();
+        String json = gson.toJson(players);
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("players", json).commit();
+    }
+
+
+    // Find first empty slot in column and play
     public void playTurn(int col) {
         if (!winnerFound && !full) {
 
@@ -151,7 +183,8 @@ public class Game extends Activity{
         }
     }
 
-    private void addWin(){
+    // Increment win for winner
+      private void addWin(){
         for (Player p : players) {
             if (p.getName().equals(currPlayers[turnFlag])){
                 p.regWin();
@@ -163,10 +196,10 @@ public class Game extends Activity{
 
     }
 
-    // effektivisera senare och kolla runt spelpjäs
+    // Checks all possibilities connected to most recent play
     private boolean checkWin(int turnFlag, int row, int col) {
         consecutive = 0;
-        // check vertical
+        // Check vertical on played row
         for (int i = rows-1; i >= 0; i--) {
             int temp = nbrBoard[i][col];
             if (temp == turnFlag){
@@ -181,7 +214,7 @@ public class Game extends Activity{
             }
         }
         consecutive = 0;
-        // check horizontal
+        // Check horizontal on played row
         for (int i = 0; i < cols; i++) {
             if (nbrBoard[row][i] == turnFlag) {
                 if (consecutive == 3) {
@@ -192,7 +225,7 @@ public class Game extends Activity{
                 consecutive = 0;
             }
         }
-        // check diagonal top down
+        // Check diagonal top down
         consecutive = 0;
         int maxDelta = min(row, col);
             for (int i = maxDelta; i > 0; i--) {
@@ -205,7 +238,6 @@ public class Game extends Activity{
                     consecutive = 0;
                 }
             }
-
         maxDelta = min(rows-row-1, cols-col-1);
         for (int i = 0; i <= maxDelta; i++) {
             if (nbrBoard[row + i][col + i] == turnFlag) {
@@ -216,9 +248,8 @@ public class Game extends Activity{
             } else {
                 consecutive = 0;
             }
-
         }
-        // check diagonal bottom up
+        // Check diagonal bottom up
         consecutive = 0;
         maxDelta = min((rows-row-1), col);
         if (maxDelta > 0) {
@@ -247,6 +278,7 @@ public class Game extends Activity{
         return false;
         }
 
+    // Fetch which column was clicked
     public int getCol(float x) {
         int col = (int) x / imgBoard[0][0].getWidth();
         if (nbrBoard[0][col] == 0){
@@ -255,7 +287,7 @@ public class Game extends Activity{
         return -1;
     }
 
-
+    // Updates turn indicator and flag
     private void updateTurn(int flag) {
         if (winnerFound) {
             reset.setVisibility(View.VISIBLE);
@@ -282,6 +314,8 @@ public class Game extends Activity{
         turnText.setText(currPlayers[turnFlag] + "'s turn");
     }
 
+
+    // Resets the board
     public void reset(View view) {
         for (int i = 0; i < rows; i++) {
             for (int k = 0; k < cols; k++){

@@ -10,7 +10,6 @@ public class Player implements Comparable<Player>{
     String name;
     int wins;
 
-
     public Player(String name) {
         this.name = name;
         wins = 0;
@@ -35,6 +34,8 @@ public class Player implements Comparable<Player>{
         wins++;
     }
 
+
+    // Custom comparator for player object
     @Override
     public int compareTo(Player c) {
         if (wins > c.getWins()) {
@@ -47,5 +48,7 @@ public class Player implements Comparable<Player>{
 
     }
 
-
+    public void resetWins() {
+        wins = 0;
+    }
 }

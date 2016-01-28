@@ -15,6 +15,37 @@
         android:textColor="#FFFFFF"
         android:shadowColor="#7F000000"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="#  Name"
+            android:textStyle="bold"
+            android:textSize="23sp"
+            android:textColor="#FFFFFF"
+
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:textColor="#FFFFFF"
+            android:textSize="23sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:text="Wins"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
     <ListView
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -23,5 +54,23 @@
         android:id="@+id/scoreList"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"/>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Clear scores"
+        android:onClick="clearScore"
+        android:layout_gravity="center"
+        style="@style/btnStyle"
+        android:layout_marginTop="30dp"/>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Clear users"
+        android:onClick="clearUsers"
+        android:layout_gravity="center"
+        style="@style/btnStyle"
+        android:layout_marginTop="30dp"/>
 
 </LinearLayout>
