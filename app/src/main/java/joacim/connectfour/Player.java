@@ -1,10 +1,12 @@
 package joacim.connectfour;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 
 /**
  * Created by joacim on 25/01/16.
  */
-public class Player implements Comparable<Player> {
+public class Player implements Comparable<Player>{
     String name;
     int wins;
 
@@ -13,6 +15,13 @@ public class Player implements Comparable<Player> {
         this.name = name;
         wins = 0;
     }
+
+    public Player(Parcel p) {
+        this.name = p.readString();
+        this.wins = p.readInt();
+    }
+
+
 
     public int getWins() {
         return wins;
@@ -29,12 +38,14 @@ public class Player implements Comparable<Player> {
     @Override
     public int compareTo(Player c) {
         if (wins > c.getWins()) {
-            return 1;
-        } else if (wins < c.getWins()) {
             return -1;
+        } else if (wins < c.getWins()) {
+            return 1;
         } else {
             return 0;
         }
 
     }
+
+
 }

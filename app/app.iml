@@ -95,5 +95,6 @@
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="TEST" name="mockable-android-22" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.5" level="project" />
   </component>
 </module>

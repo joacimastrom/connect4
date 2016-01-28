@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Leaderboard"
+        android:text="Top 10"
         android:textSize="50sp"
-        android:id="@+id/leaderboard"/>
+        android:id="@+id/leaderboard"
+        android:textColor="#FFFFFF"
+        android:shadowColor="#7F000000"/>
 
     <ListView
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-    </ListView>
+        android:layout_height="wrap_content"
+        android:id="@+id/scoreList"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"/>
 
 </LinearLayout>
