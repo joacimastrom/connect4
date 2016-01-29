@@ -63,9 +63,14 @@ public class Connect4 extends Activity {
         currPlayers = newGame.getStringArrayExtra("currPlayers");
         Gson gson = new Gson();
         // Retrieve stored playerlist(JSON string) and convert to ArrayList<Player>
-        String json = PreferenceManager.getDefaultSharedPreferences(this).getString("players", "");
-        players = gson.fromJson(json, new TypeToken<ArrayList<Player>>() {
-        }.getType());
+        String json = PreferenceManager.getDefaultSharedPreferences(this).getString("players", "default");
+        if (!json.equals("default")){
+            players = gson.fromJson(json, new TypeToken<ArrayList<Player>>() {
+            }.getType());
+        } else {
+            players = new ArrayList<>();
+        }
+
 
         // Check number of players
         if (currPlayers.length == 4) { tri = true; turnFlag = YELLOW; }

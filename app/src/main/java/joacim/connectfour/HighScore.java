@@ -36,12 +36,15 @@ public class HighScore extends Activity{
 
         // Load player database
         Gson gson = new Gson();
-        String json = PreferenceManager.getDefaultSharedPreferences(this).getString("players", "");
-        if (json != "") {
-        players = gson.fromJson(json, new TypeToken<ArrayList<Player>>() {
-        }.getType());
+        String json = PreferenceManager.getDefaultSharedPreferences(this).getString("players", "default");
+        if (json != "default") {
+            players = gson.fromJson(json, new TypeToken<ArrayList<Player>>() {
+            }.getType());
+        } else {             players = new ArrayList<>(); }
 
-        // Lists all players if less than 10, otherwise 10 best, or none if empty
+
+
+            // Lists all players if less than 10, otherwise 10 best, or none if empty
         ListView highscore = (ListView) findViewById(R.id.scoreList);
         if (players.size() < 10) {
             adapter = new HighScoreAdapter(this, new ArrayList<>(players));
@@ -49,16 +52,6 @@ public class HighScore extends Activity{
             adapter = new HighScoreAdapter(this, new ArrayList<>(players.subList(0, 10)));
         }
         highscore.setAdapter(adapter);
-
-        }
-        else {
-            title = (TextView) findViewById(R.id.leaderboard);
-            title.setText("No registred results");
-
-        }
-
-
-
     }
 
 
