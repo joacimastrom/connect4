@@ -20,13 +20,14 @@
 
 
   <Button
-      android:id="@+id/singlePlay"
+      android:id="@+id/twoPlayers"
       android:layout_width="200dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:layout_marginTop="30dp"
-      android:text="One player"
+      android:text="Two players"
       style="@style/btnStyle"
+      android:onClick="twoPlayers"
       />
 
   <Button
@@ -35,8 +36,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:layout_marginTop="30dp"
-      android:text="Two players"
-      android:onClick="play"
+      android:text="Three players"
+      android:onClick="threePlayers"
       style="@style/btnStyle"/>
 
     <Button

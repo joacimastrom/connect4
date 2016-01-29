@@ -8,7 +8,7 @@
         android:scrollbars = "vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:textSize="20sp"
         android:id="@+id/auditText"
         />
@@ -18,7 +18,7 @@
         android:id="@+id/clear"
         android:layout_width="200dp"
         android:layout_height="0dp"
-        android:layout_weight="0.2"
+        android:layout_weight="0.1"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:onClick="clearAudit"

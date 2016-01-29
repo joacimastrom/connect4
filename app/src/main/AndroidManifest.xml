@@ -21,7 +21,7 @@
         <activity
             android:screenOrientation="portrait"
 
-            android:name=".Game" android:label="GameBoard"
+            android:name=".Connect4" android:label="GameBoard"
             >
 
 

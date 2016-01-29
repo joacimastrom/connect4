@@ -11,16 +11,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.widget.Button;
-import android.widget.TextView;
 import android.text.InputFilter;
-import java.util.ArrayList;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import android.preference.PreferenceManager;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+
 
 
     @Override
@@ -28,7 +25,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getActionBar().hide();
-
     }
 
     @Override
@@ -49,12 +45,12 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    public void play(View view) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+    // Two human players
+    public void twoPlayers(View view) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Add players");
         alert.setMessage("Who's playing? (Max 10 characters)");
 
@@ -63,10 +59,10 @@ public class MainActivity extends Activity {
         // Max character input
         int maxLength = 10;
         player1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-        player1.setHint("Player 1");
+        player1.setHint("Green");
         final EditText player2 = new EditText(this);
         player2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-        player2.setHint("Player 2");
+        player2.setHint("Red");
         LinearLayout layout = new LinearLayout(getApplicationContext());
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(player1);
@@ -82,9 +78,53 @@ public class MainActivity extends Activity {
                         newPlayers[i] = "Player " + i;
                     }
                 }
-                Intent playGame = new Intent(MainActivity.this, Game.class);
-                playGame.putExtra("currPlayers", newPlayers);
-                startActivity(playGame);
+                setSize(newPlayers);
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Cancelled.
+            }
+        });
+        alert.show();
+    }
+
+    // Three human players
+    public void threePlayers(View view) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Add players");
+        alert.setMessage("Who's playing? (Max 10 characters)");
+
+        // Setup player input window
+        final EditText player1 = new EditText(this);
+        // Max character input
+        int maxLength = 10;
+        player1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        player1.setHint("Green");
+        final EditText player2 = new EditText(this);
+        player2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        player2.setHint("Red");
+        final EditText player3 = new EditText(this);
+        player3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        player3.setHint("Yellow");
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        layout.addView(player1);
+        layout.addView(player2);
+        layout.addView(player3);
+        alert.setView(layout);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String[] newPlayers;
+                newPlayers = new String[]{"",player1.getText().toString().trim(), player2.getText().toString().trim(), player3.getText().toString().trim()};
+                for (int i = 1; i<4; i++) {
+                    if (newPlayers[i].equals("")) {
+                        newPlayers[i] = "Player " + i;
+                    }
+                }
+                setSize(newPlayers);
             }
         });
 
@@ -96,9 +136,32 @@ public class MainActivity extends Activity {
 
         alert.show();
 
-
     }
 
+    private void setSize(final String[] newPlayers) {
+        final String[] sizes = new String[]{"Small", "Large"};
+        AlertDialog.Builder sizeQ = new AlertDialog.Builder(this)
+                .setTitle("Choose board size")
+                .setSingleChoiceItems(sizes, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        newPlayers[0] = sizes[which];
+                        Intent playGame = new Intent(MainActivity.this, Connect4.class);
+                        playGame.putExtra("currPlayers", newPlayers);
+                        startActivity(playGame);
+                        dialog.dismiss();
+
+                    }
+
+                });
+
+        sizeQ.show();
+
+
+
+
+
+    }
     // Highscore menu button action
     public void showHighscore(View view) {
         Intent showScore = new Intent(MainActivity.this, HighScore.class);
@@ -110,4 +173,5 @@ public class MainActivity extends Activity {
         Intent audit = new Intent(MainActivity.this, Audit.class);
         startActivity(audit);
     }
+
 }
