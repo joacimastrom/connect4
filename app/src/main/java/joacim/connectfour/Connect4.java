@@ -137,7 +137,7 @@ public class Connect4 extends Activity {
                 return false;
             }
         });
-        audit = audit + "New game\n\n";
+        audit = audit + "\nNew game\n";
 
     }
 
@@ -247,7 +247,7 @@ public class Connect4 extends Activity {
         if (winnerFound) {
             reset.setVisibility(View.VISIBLE);
             addWin();
-            audit = audit + currPlayers[turnFlag] + " wins!\n\n";
+            audit = audit + currPlayers[turnFlag] + " wins!\n";
             saveAudit();
             turnText.setText(currPlayers[turnFlag] + " wins!");
             return;
@@ -256,7 +256,7 @@ public class Connect4 extends Activity {
             turnText.setText("Nobody wins");
             reset.setVisibility(View.VISIBLE);
             turnText.setTextColor(Color.WHITE);
-            audit = audit + "Board is full.\n\n";
+            audit = audit + "Board is full.\n";
             saveAudit();
             return;
         }
@@ -296,7 +296,7 @@ public class Connect4 extends Activity {
         full = false;
         updateTurn();
         view.setVisibility(View.GONE);
-        audit = audit + "New game\n\n";
+        audit = audit + "\nNew game\n";
         saveAudit();
 
     }
