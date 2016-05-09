@@ -174,4 +174,9 @@ public class MainActivity extends Activity {
         startActivity(audit);
     }
 
+    public void onlinePlay(View view) {
+        Intent online = new Intent(MainActivity.this, Online.class);
+        startActivity(online);
+
+    }
 }
