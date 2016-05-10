@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         newPlayers[0] = sizes[which];
-                        Intent playGame = new Intent(MainActivity.this, Connect4.class);
+                        Intent playGame = new Intent(MainActivity.this, Offline.class);
                         playGame.putExtra("currPlayers", newPlayers);
                         startActivity(playGame);
                         dialog.dismiss();
