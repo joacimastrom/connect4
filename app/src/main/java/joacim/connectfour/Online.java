@@ -12,14 +12,15 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.StrictMode;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,25 +35,45 @@ public class Online extends Connect4 {
 
     private boolean yourTurn;
     private Integer response;
+    public static int nextMove = -1;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        yourTurn = false;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        yourTurn = true;
         setupBoard();
+        final Handler turnHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                loadTurn(msg.what);
+            }
 
-        try {
-            response = new Connect().execute(6).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        };
 
-        loadTurn(response);
+        new Connector(turnHandler).start();
+
+
+
+
 
     }
 
+
+    public synchronized static int getData() {
+        while(nextMove != -1){
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        int tempMove = nextMove;
+        nextMove = -1;
+        return tempMove;
+    }
     private void loadTurn(Integer event) {
         if (event == -1) {
             updateTurn();
@@ -82,14 +103,8 @@ public class Online extends Connect4 {
                     int col = getCol(event.getX());
                     if (col != -1 && yourTurn) {
                         playTurn(col);
-                        try {
-                            int nextMove = new Connect().execute(col).get();
-                            loadTurn(nextMove);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
+                        nextMove = col;
+
                     }
                     return true;
                 }
@@ -111,11 +126,11 @@ public class Online extends Connect4 {
                 case RED:
                     imgBoard[row][col].setImageResource(R.drawable.red);
                     break;
-                }
+            }
 
-        if (checkWin(row, col)) {
+            if (checkWin(row, col)) {
                 winnerFound = true;
-        } else if (checkFull()) {
+            } else if (checkFull()) {
                 full = true;
             }
             updateTurn();
@@ -198,4 +213,3 @@ public class Online extends Connect4 {
     }
 
 }
-
