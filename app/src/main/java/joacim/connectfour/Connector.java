@@ -8,10 +8,9 @@ import android.os.Message;
 
 public class Connector extends Thread{
 
-    Socket socket;
         Handler turnHandler;
         int id;
-    Socket s;
+        Socket s;
 
         Connector(Handler turnHandler) {
             this.turnHandler = turnHandler;
@@ -31,31 +30,19 @@ public class Connector extends Thread{
                 ObjectInputStream ois = null;
                 Message msg = Message.obtain();
                 try {
-                    ois = new ObjectInputStream(socket.getInputStream());
+                    ois = new ObjectInputStream(s.getInputStream());
                     int response = ois.readInt();
                     msg.what = response;
                     turnHandler.sendMessage(msg);
-                    oos = new ObjectOutputStream(socket.getOutputStream());
-                    Online.getData();
-                    // oos.writeInt(checkFirst);
+                    oos = new ObjectOutputStream(s.getOutputStream());
+                    int move = Online.getData();
+                    oos.writeInt(move);
                     oos.flush();
 
-                    if(response == -3){
-                        response = ois.readInt();
-                    }
-                    System.out.println(response);
-                    oos.writeInt(response + 1);
-                    //m.addTurn(response);
 
                 } catch (Exception e) {
                     System.out.println("IO error " + e);
-                } finally {
-                    try {
-                        oos.flush();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }

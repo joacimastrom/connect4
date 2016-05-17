@@ -43,7 +43,7 @@ public class Online extends Connect4 {
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        yourTurn = true;
+        yourTurn = false;
         setupBoard();
         final Handler turnHandler = new Handler() {
             @Override
@@ -55,15 +55,11 @@ public class Online extends Connect4 {
 
         new Connector(turnHandler).start();
 
-
-
-
-
     }
 
 
     public synchronized static int getData() {
-        while(nextMove != -1){
+        while(nextMove == -1){
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
