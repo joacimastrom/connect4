@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,9 +172,8 @@ public class MainActivity extends Activity {
         startActivity(audit);
     }
 
-    public void onlinePlay(View view) {
-        Intent online = new Intent(MainActivity.this, Online.class);
-        startActivity(online);
-
+    public void onlinePlay(View view){
+        Intent lobby = new Intent(MainActivity.this, Lobby.class);
+        startActivity(lobby);
     }
 }

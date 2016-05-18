@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 
 
-public class Online extends Connect4 {
+public abstract class Online extends Connect4 {
 
     private boolean yourTurn;
     private Integer response;

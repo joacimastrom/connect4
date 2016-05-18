@@ -4,4 +4,6 @@
     <string name="game_name">Connect Four</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="lobby">Lobby</string>
 </resources>
