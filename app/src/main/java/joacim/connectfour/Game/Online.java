@@ -108,7 +108,11 @@ public abstract class Online extends Connect4 {
     protected void updateTurn() {
 
         if (winnerFound) {
-            turnText.setText(turnFlag + " wins!");
+            if (turnFlag == RED) {
+                turnText.setText("You lose!");
+            } else {
+                turnText.setText("You win!");
+            }
             return;
         }
         if (full) {
@@ -128,7 +132,11 @@ public abstract class Online extends Connect4 {
                 break;
         }
         yourTurn = !yourTurn;
-        turnText.setText(turnFlag + "'s turn");
+        if (turnFlag == RED) {
+            turnText.setText("Waiting");
+        } else {
+            turnText.setText("Your turn");
+        }
     }
 
 }

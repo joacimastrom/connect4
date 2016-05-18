@@ -9,15 +9,14 @@ class ServerThread extends GameThread {
     Socket socket;
     Monitor m;
 
-    ServerThread(Socket socket, Monitor m) {
-        this.socket = socket;
+    public ServerThread(Monitor m, Socket socket) {
         this.m = m;
         id = 1;
+        this.socket = socket;
+
     }
-    public ServerThread(Monitor m, int id) {
-        this.m = m;
-        this.id = id;
-    }
+
+
     public void run() {
         while (true) {
             ObjectOutputStream oos = null;

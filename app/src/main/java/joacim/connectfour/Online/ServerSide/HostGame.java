@@ -1,5 +1,6 @@
 package joacim.connectfour.Online.ServerSide;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,16 +29,33 @@ public class HostGame extends Online {
 
         Monitor mon = new Monitor();
         new HostThread(turnHandler, mon).start();
-        try {
-            ServerSocket ss = new ServerSocket(8080);
-            Socket accSock = ss.accept();
-            new ServerThread(accSock, mon).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        new LongOperation().execute(mon);
 
     }
 
+    private class LongOperation extends AsyncTask<Monitor, Void, Void> {
+
+        Monitor m;
+
+       // public LongOperation(Monitor mon) {
+       //     super();
+       //     m = mon;
+       // }
+
+        @Override
+        protected Void doInBackground(Monitor... params) {
+            ServerSocket ss = null;
+            try {
+                Socket socket;
+                ss = new ServerSocket(8080);
+                socket = ss.accept();
+                new ServerThread(params[0], socket).start();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
 }
