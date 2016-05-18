@@ -1,16 +1,18 @@
-package joacim.connectfour.ServerSide;
+package joacim.connectfour.Online.ServerSide;
 import java.io.*;
 import java.net.*;
 
+import joacim.connectfour.Online.GameThread;
 
-class ServerThread extends Thread {
+
+class ServerThread extends GameThread {
     Socket socket;
     Monitor m;
-    int id;
-    ServerThread(Socket socket, Monitor m, int id) {
+
+    ServerThread(Socket socket, Monitor m) {
         this.socket = socket;
         this.m = m;
-        this.id = id;
+        id = 1;
     }
     public ServerThread(Monitor m, int id) {
         this.m = m;
