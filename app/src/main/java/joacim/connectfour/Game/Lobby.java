@@ -1,8 +1,10 @@
-package joacim.connectfour;
+package joacim.connectfour.Game;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+
+import joacim.connectfour.R;
 
 /**
  * Created by joacim on 18/05/16.

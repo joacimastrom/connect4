@@ -1,9 +1,11 @@
-package joacim.connectfour;
+package joacim.connectfour.ClientSide;
 
 import java.io.*;
 import java.net.*;
 import android.os.Handler;
 import android.os.Message;
+
+import joacim.connectfour.Game.Online;
 
 
 public class Connector extends Thread{

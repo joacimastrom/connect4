@@ -1,22 +1,19 @@
-package joacim.connectfour;
+package joacim.connectfour.Game;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.view.View;
 import android.widget.TextView;
-import android.graphics.Color;
-import android.view.ViewGroup;
 
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import joacim.connectfour.R;
 
 /**
  * Created by joacim on 26/01/16.

@@ -1,6 +1,5 @@
-package joacim.connectfour;
+package joacim.connectfour.Game;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
 /**

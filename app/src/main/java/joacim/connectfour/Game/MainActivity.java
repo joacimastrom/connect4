@@ -1,4 +1,4 @@
-package joacim.connectfour;
+package joacim.connectfour.Game;
 
 import android.app.Activity;
 
@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.InputFilter;
-import android.widget.RadioButton;
-import android.widget.Toast;
+
+import joacim.connectfour.R;
 
 
 public class MainActivity extends Activity {

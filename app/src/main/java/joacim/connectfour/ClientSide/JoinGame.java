@@ -1,4 +1,4 @@
-package joacim.connectfour;
+package joacim.connectfour.ClientSide;
 
 /**
  * Created by joacim on 18/05/16.

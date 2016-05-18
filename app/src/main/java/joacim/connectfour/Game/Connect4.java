@@ -1,25 +1,21 @@
-package joacim.connectfour;
+package joacim.connectfour.Game;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.Intent;
-import android.graphics.Color;
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.Collections;
+
+import joacim.connectfour.R;
 
 import static java.lang.Math.min;
 

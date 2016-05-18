@@ -1,4 +1,4 @@
-package joacim.connectfour;
+package joacim.connectfour.Game;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import android.text.method.ScrollingMovementMethod;
 
 import org.w3c.dom.Text;
+
+import joacim.connectfour.R;
 
 /**
  * Created by joacim on 28/01/16.
