@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
 
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Message;
 
@@ -12,52 +14,88 @@ import joacim.connectfour.Game.Online;
 
 public class Connector extends Thread{
 
-        Handler turnHandler;
-        Socket s;
+    Handler turnHandler;
+    InetAddress ia;
+    DatagramSocket ds;
+    String host;
+    InetAddress destHost;
+    String broadCastHost = "224.0.50.50";
 
-        public Connector(Handler turnHandler) {
-            this.turnHandler = turnHandler;
-            InetAddress localhost = null;
-            try {
-                localhost = InetAddress.getLocalHost();
 
-            // this code assumes IPv4 is used
-            byte[] ip = localhost.getAddress();
-            for (int i = 1; i <= 254; i++)
+    public Connector(Handler turnHandler) {
+        this.turnHandler = turnHandler;
+
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            while(e.hasMoreElements())
             {
-                ip[3] = (byte)i;
-                InetAddress address = InetAddress.getByAddress(ip);
-                s = new Socket(address, 8080);
-
-            }
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        public void run() {
-            while (true) {
-                ObjectOutputStream oos = null;
-                ObjectInputStream ois = null;
-                Message msg = Message.obtain();
-                try {
-                    ois = new ObjectInputStream(s.getInputStream());
-                    int response = ois.readInt();
-                    msg.what = response;
-                    turnHandler.sendMessage(msg);
-                    oos = new ObjectOutputStream(s.getOutputStream());
-                    int move = Online.getData();
-                    oos.writeInt(move);
-                    oos.flush();
-
-
-                } catch (Exception e) {
-                    System.out.println("IO error " + e);
-
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                while (ee.hasMoreElements())
+                {
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    if (i instanceof Inet4Address && !i.isLoopbackAddress())
+                    {
+                        host = i.getHostAddress();
+                    }
                 }
             }
+            ia = InetAddress.getByName(host);
+            ds = new DatagramSocket(8080);
+        } catch (IOException e) {
+            try {
+                ds.connect(InetAddress.getByName(host), 8080);
+            } catch (UnknownHostException e1) {
+                e1.printStackTrace();
+            }
         }
+
+
+    }
+
+
+    public void run() {
+        try {
+            byte[] buffer = (ia.toString()).getBytes();
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(broadCastHost), 8080);
+            ds.send(packet);
+
+            byte[] recvBuf = new byte[1024];
+            DatagramPacket recv = new DatagramPacket(recvBuf, recvBuf.length);
+            ds.receive(recv);
+            destHost = recv.getAddress();
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (!Thread.interrupted()) {
+            Message msg = Message.obtain();
+            try {
+                byte[] buf = new byte[1024];
+                DatagramPacket dp = new DatagramPacket(buf, buf.length);
+                ds.receive(dp);
+                msg.what = (dp.getData()[0]);
+                turnHandler.sendMessage(msg);
+                int move = Online.getData();
+                byte[] send = {(byte) move};
+                DatagramPacket sendPackage = new DatagramPacket(send,send.length, destHost, 8080);
+                ds.send(sendPackage);
+            } catch (Exception e) {
+                System.out.println("IO error " + e);
+
+            }
+        }
+
+
+        return;
+    }
+
+    public void killSockets() {
+        if (ds.isConnected() || ds != null){
+            ds.close();
+        }
+    }
 }

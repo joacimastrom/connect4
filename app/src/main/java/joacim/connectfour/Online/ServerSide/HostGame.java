@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -15,6 +17,10 @@ import joacim.connectfour.Game.Online;
  * Created by joacim on 18/05/16.
  */
 public class HostGame extends Online {
+
+    HostThread host;
+    ServerThread server;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,32 +34,28 @@ public class HostGame extends Online {
         };
 
         Monitor mon = new Monitor();
-        new HostThread(turnHandler, mon).start();
-        new LongOperation().execute(mon);
+        host = new HostThread(turnHandler, mon);
+        host.start();
+        server = new ServerThread(mon);
+
+        new LongOperation().execute(server);
 
     }
 
-    private class LongOperation extends AsyncTask<Monitor, Void, Void> {
 
-        Monitor m;
+    @Override
+    public void finish() {
+        host.interrupt();
+        server.interrupt();
+        server.killSockets();
+        super.finish();
+    }
 
-       // public LongOperation(Monitor mon) {
-       //     super();
-       //     m = mon;
-       // }
+    private class LongOperation extends AsyncTask<ServerThread, Void, Void> {
 
         @Override
-        protected Void doInBackground(Monitor... params) {
-            ServerSocket ss = null;
-            try {
-                Socket socket;
-                ss = new ServerSocket(8080);
-                socket = ss.accept();
-                new ServerThread(params[0], socket).start();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        protected Void doInBackground(ServerThread... params) {
+                params[0].start();
             return null;
         }
     }

@@ -11,7 +11,7 @@ import joacim.connectfour.Game.Online;
  */
 public class JoinGame extends Online {
 
-
+    Connector client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +24,18 @@ public class JoinGame extends Online {
 
         };
 
-        new Connector(turnHandler).start();
+        client = new Connector(turnHandler);
+        client.start();
 
 
+    }
+
+
+    @Override
+    public void finish() {
+        client.interrupt();
+        client.killSockets();
+        super.finish();
     }
 
 

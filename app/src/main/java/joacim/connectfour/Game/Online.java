@@ -139,4 +139,11 @@ public abstract class Online extends Connect4 {
         }
     }
 
+
+    // Audit if cancelled game
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
 }

@@ -61,6 +61,7 @@ public class Offline extends Connect4{
         }
     }
 
+
     protected void setupBoard(){
         super.setupBoard();
         boardView.setOnTouchListener(new OnTouchListener() {

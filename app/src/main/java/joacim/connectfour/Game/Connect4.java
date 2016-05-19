@@ -106,8 +106,6 @@ public abstract class Connect4 extends Activity {
     // Audit if cancelled game
     @Override
     public void finish() {
-        audit = audit + "Game cancelled\n";
-        saveAudit();
         super.finish();
     }
 

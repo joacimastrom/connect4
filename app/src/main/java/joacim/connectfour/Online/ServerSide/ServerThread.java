@@ -6,45 +6,65 @@ import joacim.connectfour.Online.GameThread;
 
 
 class ServerThread extends GameThread {
-    Socket socket;
+    MulticastSocket ms;
     Monitor m;
+    InetAddress ia;
+    DatagramSocket socket;
+    private String clientAddress;
 
-    public ServerThread(Monitor m, Socket socket) {
+    public ServerThread(Monitor m) {
         this.m = m;
         id = 1;
-        this.socket = socket;
-
     }
 
 
     public void run() {
-        while (true) {
-            ObjectOutputStream oos = null;
-            ObjectInputStream ois = null;
+        try {
+        ms = new MulticastSocket(8080);
+        ia = InetAddress.getByName("224.0.50.50");
+        ms.joinGroup(ia);
+
+        byte[] start = new byte[1024];
+        DatagramPacket init= new DatagramPacket(start, start.length);
+        ms.receive(init);
+        clientAddress = init.getAddress().getHostAddress();
+        start = "hello".getBytes();
+        ms.close();
+        socket = new DatagramSocket(8080);
+        init = new DatagramPacket(start, start.length, InetAddress.getByName(clientAddress), 8080);
+        socket.send(init);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (!Thread.interrupted()) {
             try {
                 int checkFirst = m.waitTurn(this);
-                oos = new ObjectOutputStream(socket.getOutputStream());
-                oos.writeInt(checkFirst);
-                oos.flush();
-                ois = new ObjectInputStream(socket.getInputStream());
-                int response = ois.readInt();
-                if(response == -3){
-                    response = ois.readInt();
-                }
-                System.out.println(response);
-                oos.writeInt(response);
-                //	m.changeTurn();
-                m.addTurn(response);
+                byte[] data = {(byte) checkFirst};
+                DatagramPacket dp = new DatagramPacket(data, data.length,  InetAddress.getByName(clientAddress), 8080);
+                socket.send(dp);
+
+                data = new byte[1];
+                dp = new DatagramPacket(data, data.length);
+                socket.receive(dp);
+
+                m.addTurn(dp.getData()[0]);
             } catch (Exception e) {
                 System.out.println("IO error " + e);
-            } finally {
-                try {
-                    oos.flush();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
             }
         }
+
+        return;
     }
+
+    public void killSockets() {
+        if (ms.isConnected() || ms != null) {
+            ms.close();
+        }
+        if (socket.isConnected() || socket != null){
+            socket.close();
+        }
+    }
+
+
 }
