@@ -65,14 +65,12 @@ public class Connector extends Thread{
             e.printStackTrace();
         }
 
-        while (!Thread.interrupted()) {
+        while (!this.interrupted()) {
             Message msg = Message.obtain();
             try {
                 byte[] buf = new byte[1024];
                 DatagramPacket dp = new DatagramPacket(buf, buf.length);
                 ds.receive(dp);
-
-                String bs = "wtf";
                 msg.what = (dp.getData()[0]);
                 turnHandler.sendMessage(msg);
                 int move = Online.getData();

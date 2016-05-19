@@ -37,7 +37,7 @@ class ServerThread extends GameThread {
             e.printStackTrace();
         }
 
-        while (!Thread.interrupted()) {
+        while (!this.interrupted()) {
             try {
                 int checkFirst = m.waitTurn(this);
                 byte[] data = {(byte) checkFirst};
