@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.InputFilter;
 
+import joacim.connectfour.Online.Lobby;
 import joacim.connectfour.R;
 
 

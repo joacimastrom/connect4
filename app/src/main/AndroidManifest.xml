@@ -33,7 +33,7 @@
         <activity
             android:screenOrientation="portrait"
 
-            android:name=".Game.Lobby" android:label="Lobby"
+            android:name=".Online.Lobby" android:label="Lobby"
             >
         </activity>
 

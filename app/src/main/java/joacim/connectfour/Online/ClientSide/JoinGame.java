@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import joacim.connectfour.Game.Online;
+import joacim.connectfour.Online.Online;
 
 /**
  * Created by joacim on 18/05/16.

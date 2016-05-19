@@ -5,13 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import joacim.connectfour.Game.Online;
+import joacim.connectfour.Online.Online;
 
 /**
  * Created by joacim on 18/05/16.

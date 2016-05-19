@@ -1,4 +1,4 @@
-package joacim.connectfour.Game;
+package joacim.connectfour.Online;
 
 import android.app.Activity;
 import android.content.Intent;

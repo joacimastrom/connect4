@@ -3,7 +3,7 @@ package joacim.connectfour.Online.ServerSide;
 import android.os.Handler;
 import android.os.Message;
 
-import joacim.connectfour.Game.Online;
+import joacim.connectfour.Online.Online;
 import joacim.connectfour.Online.GameThread;
 
 /**

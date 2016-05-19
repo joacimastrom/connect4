@@ -1,4 +1,4 @@
-package joacim.connectfour.Game;
+package joacim.connectfour.Online;
 
 
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.view.MotionEvent;
 import android.view.View;
 
+import joacim.connectfour.Game.Connect4;
 import joacim.connectfour.R;
 
 
@@ -31,11 +32,6 @@ public abstract class Online extends Connect4 {
 
     public synchronized static int getData() {
         while(nextMove == -1){
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         int tempMove = nextMove;
         nextMove = -1;

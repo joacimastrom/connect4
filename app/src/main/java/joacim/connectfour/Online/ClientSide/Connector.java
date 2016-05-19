@@ -4,12 +4,10 @@ import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
 
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Message;
 
-import joacim.connectfour.Game.Online;
+import joacim.connectfour.Online.Online;
 
 
 public class Connector extends Thread{
@@ -43,11 +41,7 @@ public class Connector extends Thread{
             ia = InetAddress.getByName(host);
             ds = new DatagramSocket(8080);
         } catch (IOException e) {
-            try {
-                ds.connect(InetAddress.getByName(host), 8080);
-            } catch (UnknownHostException e1) {
-                e1.printStackTrace();
-            }
+
         }
 
 
@@ -59,7 +53,6 @@ public class Connector extends Thread{
             byte[] buffer = (ia.toString()).getBytes();
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(broadCastHost), 8080);
             ds.send(packet);
-
             byte[] recvBuf = new byte[1024];
             DatagramPacket recv = new DatagramPacket(recvBuf, recvBuf.length);
             ds.receive(recv);
