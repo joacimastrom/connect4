@@ -15,7 +15,6 @@ public class JoinGame extends Online {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         final Handler turnHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -23,7 +22,6 @@ public class JoinGame extends Online {
             }
 
         };
-
         client = new Connector(turnHandler);
         client.start();
 
@@ -37,6 +35,7 @@ public class JoinGame extends Online {
         client.killSockets();
         super.finish();
     }
+
 
 
 }

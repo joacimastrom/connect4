@@ -58,10 +58,10 @@ class ServerThread extends GameThread {
     }
 
     public void killSockets() {
-        if (ms.isConnected() || ms != null) {
+        if (ms != null) {
             ms.close();
         }
-        if (socket.isConnected() || socket != null){
+        if (socket != null){
             socket.close();
         }
     }

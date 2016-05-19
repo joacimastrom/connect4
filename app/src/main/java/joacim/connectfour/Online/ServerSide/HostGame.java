@@ -31,10 +31,12 @@ public class HostGame extends Online {
         host = new HostThread(turnHandler, mon);
         host.start();
         server = new ServerThread(mon);
+        server.start();
 
-        new LongOperation().execute(server);
+       // new LongOperation().execute(server);
 
     }
+
 
 
     @Override

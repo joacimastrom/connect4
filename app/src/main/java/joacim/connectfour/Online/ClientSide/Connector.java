@@ -39,9 +39,9 @@ public class Connector extends Thread{
                 }
             }
             ia = InetAddress.getByName(host);
-            ds = new DatagramSocket(8080);
-        } catch (IOException e) {
 
+        } catch (IOException e) {
+            System.out.println("IO error " + e);
         }
 
 
@@ -50,6 +50,7 @@ public class Connector extends Thread{
 
     public void run() {
         try {
+            ds = new DatagramSocket(8080);
             byte[] buffer = (ia.toString()).getBytes();
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(broadCastHost), 8080);
             ds.send(packet);
@@ -70,6 +71,8 @@ public class Connector extends Thread{
                 byte[] buf = new byte[1024];
                 DatagramPacket dp = new DatagramPacket(buf, buf.length);
                 ds.receive(dp);
+
+                String bs = "wtf";
                 msg.what = (dp.getData()[0]);
                 turnHandler.sendMessage(msg);
                 int move = Online.getData();
@@ -87,7 +90,8 @@ public class Connector extends Thread{
     }
 
     public void killSockets() {
-        if (ds.isConnected() || ds != null){
+        if (ds != null){
+            ds.disconnect();
             ds.close();
         }
     }
